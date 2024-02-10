@@ -1,14 +1,30 @@
-
 import os
 import glob
 import pandas as pd
 import psycopg2
 from psycopg2 import OperationalError, Error
+from datetime import datetime
 
 # Database credentials
 db_name = "sales-database"
 username = "postgres"
 password = "lina2015"
+
+# Function to transform date to ISO format (YYYY-MM-DD)
+def transform_date(date_str):
+    try:
+        return datetime.strptime(date_str, '%m/%d/%Y').strftime('%Y-%m-%d')
+    except ValueError:
+        # If there's an error, return the original string
+        return date_str
+
+# Function to standardize money values to two decimal places
+def transform_money(money_value):
+    try:
+        return "{:.2f}".format(float(money_value))
+    except ValueError:
+        # If there's an error, return the original value
+        return money_value
 
 # Function to insert DataFrame into the database
 def insert_dataframe_to_db(df, table_name, conn):
@@ -47,7 +63,18 @@ def process_files(directory, table_name):
             try:
                 # Read the CSV file into a DataFrame, skipping the first column
                 df = pd.read_csv(file_path, index_col=0)
-                
+
+                # Apply transformations
+                date_columns = ['Order Date', 'Ship Date']
+                for col in date_columns:
+                    if col in df.columns:
+                        df[col] = df[col].apply(transform_date)
+
+                money_columns = ['Unit Price', 'Unit Cost', 'Total Revenue', 'Total Cost', 'Total Profit']
+                for col in money_columns:
+                    if col in df.columns:
+                        df[col] = df[col].apply(transform_money)
+
                 # Insert DataFrame into the database
                 insert_dataframe_to_db(df, table_name, conn)
                 print(f"Data from {file_path} inserted successfully into {table_name}.")
@@ -63,9 +90,6 @@ def process_files(directory, table_name):
     except Error as e:
         print(f"A database error occurred: {e}")
     finally:
-        # Close communication with the database
-        if 'conn' in locals() and conn is not None:
-            conn.close()
         # Close communication with the database
         if 'conn' in locals() and conn is not None:
             conn.close()
