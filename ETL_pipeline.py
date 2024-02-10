@@ -45,11 +45,8 @@ def process_files(directory, table_name):
         
         for file_path in csv_files:
             try:
-                # Read the CSV file into a DataFrame
-                df = pd.read_csv(file_path)
-                # Remove the unnamed column if it exists 
-                if 'Unnamed' in df.columns[0]:
-                    df = df.iloc[:, 1:]
+                # Read the CSV file into a DataFrame, skipping the first column
+                df = pd.read_csv(file_path, index_col=0)
                 
                 # Insert DataFrame into the database
                 insert_dataframe_to_db(df, table_name, conn)
@@ -66,6 +63,9 @@ def process_files(directory, table_name):
     except Error as e:
         print(f"A database error occurred: {e}")
     finally:
+        # Close communication with the database
+        if 'conn' in locals() and conn is not None:
+            conn.close()
         # Close communication with the database
         if 'conn' in locals() and conn is not None:
             conn.close()
