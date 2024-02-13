@@ -1,0 +1,31 @@
+docker-compose up -d
+
+docker cp "C:\Users\Ayoub Maimmadi\Documents\AUI\Tajedine Rachidi\ETL and ELT integration pipelines\sales_xlsx" namenode:/tmp/sales_xlsx
+
+docker exec -it namenode bash
+
+hdfs dfs -mkdir /sales_data
+
+hdfs dfs -put /tmp/s/* /sales_data
+
+hdfs dfs -ls /sales_data
+
+cd /etc/apt/apt.conf.d/
+
+echo 'Acquire::Check-Valid-Until "false";' | tee 99no-check-valid-until
+
+apt-get update
+
+docker exec -it namenode ls /
+
+docker cp "C:\Users\Ayoub Maimmadi\Documents\AUI\Tajedine Rachidi\ETL and ELT integration pipelines\mapper.py" namenode:/home/hadoop/mapper.py
+
+docker exec -it namenode chmod +x /home/hadoop/mapper.py
+
+hadoop jar /opt/hadoop-3.2.1/share/hadoop/tools/lib/hadoop-streaming-3.2.1.jar \
+-file /home/mapper.py -mapper "python /home/mapper.py" \
+-input /sales_data/* -output /output_results
+
+
+
+
