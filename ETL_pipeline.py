@@ -57,7 +57,7 @@ def process_files(directory, table_name):
         conn = psycopg2.connect(dbname=db_name, user=username, password=password)
 
         # Get all CSV files in the directory
-        csv_files = glob.glob(os.path.join(directory, '*.csv'))
+        csv_files = glob.glob(os.path.join(directory, '*.xlsx'))
         
         for file_path in csv_files:
             try:
@@ -95,7 +95,7 @@ def process_files(directory, table_name):
             conn.close()
 
 # Define the directory where the CSV files are stored
-csv_directory = 'sales_csv'
+csv_directory = 'sales_xlsx'
 # Define the PostgreSQL table name
 table_name = 'sales_records'
 
