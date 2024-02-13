@@ -19,19 +19,25 @@ def transform_money(value):
         # Return the original value if the transformation fails
         return value
 
-# Skip the header line
-next(sys.stdin)
+# Attempt to skip the header line if it exists
+try:
+    next(sys.stdin)
+except StopIteration:
+    # Exit the script if there is no input to process
+    sys.exit()
 
 for line in sys.stdin:
     line = line.strip()
-    parts = line.split('\t')  
+    parts = line.split(',')  # Assuming CSV format. Change to '\t' if your input is tab-delimited
     
-    parts[5] = transform_date(parts[5])  # Order Date column
-    parts[7] = transform_date(parts[7])  # Ship Date column
-    parts[9] = transform_money(parts[9])  # Unit Price column
-    parts[10] = transform_money(parts[10])  # Unit Cost column
-    parts[11] = transform_money(parts[11])  # Total Revenue column
-    parts[12] = transform_money(parts[12])  # Total Cost column
-    parts[13] = transform_money(parts[13])  # Total Profit column
+    # Ensure we have enough parts to avoid IndexError
+    if len(parts) >= 14:
+        parts[5] = transform_date(parts[5])  # Order Date column
+        parts[7] = transform_date(parts[7])  # Ship Date column
+        parts[9] = transform_money(parts[9])  # Unit Price column
+        parts[10] = transform_money(parts[10])  # Unit Cost column
+        parts[11] = transform_money(parts[11])  # Total Revenue column
+        parts[12] = transform_money(parts[12])  # Total Cost column
+        parts[13] = transform_money(parts[13])  # Total Profit column
 
-    print('\t'.join(parts))
+        print(','.join(parts))  # Change to '\t'.join(parts) if your output should be tab-delimited

@@ -2,9 +2,13 @@ docker-compose up -d
 
 docker cp "C:\Users\Ayoub Maimmadi\Documents\AUI\Tajedine Rachidi\ETL and ELT integration pipelines\sales_xlsx" namenode:/tmp/sales_xlsx
 
+docker cp "C:\Users\Ayoub Maimmadi\Documents\AUI\Tajedine Rachidi\ETL and ELT integration pipelines\sales_csv" namenode:/tmp/sales_csv
+
 docker exec -it namenode bash
 
 hdfs dfs -mkdir /sales_data
+
+hdfs dfs -rm -r /sales_data
 
 hdfs dfs -put /tmp/s/* /sales_data
 
@@ -22,9 +26,26 @@ docker cp "C:\Users\Ayoub Maimmadi\Documents\AUI\Tajedine Rachidi\ETL and ELT in
 
 docker exec -it namenode chmod +x /home/hadoop/mapper.py
 
+hdfs dfs -rm -r /output_results
+
+ls /tmp/sales_csv
+ls /tmp/sales_xlsx
+
+hdfs dfs -mkdir /sales_data
+hdfs dfs -put /tmp/sales_csv/* /sales_data
+
 hadoop jar /opt/hadoop-3.2.1/share/hadoop/tools/lib/hadoop-streaming-3.2.1.jar \
--file /home/mapper.py -mapper "python /home/mapper.py" \
+-files /home/mapper.py -mapper "/usr/bin/python3 /home/mapper.py" \hdfs dfs -put /tmp/s/* /sales_data
 -input /sales_data/* -output /output_results
+
+hadoop jar /opt/hadoop-3.2.1/share/hadoop/tools/lib/hadoop-streaming-3.2.1.jar \
+-files /home/mapper.py -mapper "/usr/bin/python3 /home/mapper.py" \
+-input /sales_data/*.csv -output /output_results
+
+
+
+
+
 
 
 
