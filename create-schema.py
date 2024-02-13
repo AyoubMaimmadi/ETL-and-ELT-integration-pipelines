@@ -5,7 +5,7 @@ from psycopg2 import OperationalError, Error
 # Database credentials
 db_name = "sales-database"
 username = "postgres"
-password = "lina2015"
+password = "postgres"
 
 try:
     # Connect to the PostgreSQL database
