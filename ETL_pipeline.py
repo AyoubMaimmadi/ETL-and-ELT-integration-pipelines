@@ -8,7 +8,7 @@ from datetime import datetime
 # Database credentials
 db_name = "sales-database"
 username = "postgres"
-password = "lina2015"
+password = "postgres"
 
 # Function to transform date to ISO format (YYYY-MM-DD)
 def transform_date(date_str):
@@ -62,7 +62,7 @@ def process_files(directory, table_name):
         for file_path in csv_files:
             try:
                 # Read the CSV file into a DataFrame, skipping the first column
-                df = pd.read_csv(file_path, index_col=0)
+                df = pd.read_excel(file_path, index_col=0)
 
                 # Apply transformations
                 date_columns = ['Order Date', 'Ship Date']
