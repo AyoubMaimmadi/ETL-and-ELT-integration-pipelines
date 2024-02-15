@@ -2,7 +2,7 @@ docker-compose up -d
 
 docker cp "C:\Users\Ayoub Maimmadi\Documents\AUI\Tajedine Rachidi\ETL and ELT integration pipelines\sales_xlsx" namenode:/tmp/sales_xlsx
 
-docker cp "C:\Users\Ayoub Maimmadi\Documents\AUI\Tajedine Rachidi\ETL and ELT integration pipelines\sales_csv" namenode:/tmp/sales_csv
+docker cp "C:\Users\Ayoub\Documents\AUI_Files\Tajedine Rachidi\ETL-and-ELT-integration-pipelines\sales_csv" namenode:/tmp/sales_csv
 
 docker exec -it namenode bash
 
@@ -53,7 +53,7 @@ hdfs dfs -put /tmp/sales_csv/* /sales_data
 
 rm /home/mapper.py
 
-docker cp "C:\Users\Ayoub Maimmadi\Documents\AUI\Tajedine Rachidi\ETL and ELT integration pipelines\mapper.py" namenode:/home/mapper.py
+docker cp "C:\Users\Ayoub\Documents\AUI_Files\Tajedine Rachidi\ETL-and-ELT-integration-pipelines\mapper.py" namenode:/home/mapper.py
 
 hadoop jar /opt/hadoop-3.2.1/share/hadoop/tools/lib/hadoop-streaming-3.2.1.jar \
 -files /home/mapper.py -mapper "/usr/bin/python3 /home/mapper.py" \hdfs dfs -put /tmp/s/* /sales_data
@@ -62,8 +62,15 @@ hadoop jar /opt/hadoop-3.2.1/share/hadoop/tools/lib/hadoop-streaming-3.2.1.jar \
 hdfs dfs -rm -r /output_results
 
 hadoop jar /opt/hadoop-3.2.1/share/hadoop/tools/lib/hadoop-streaming-3.2.1.jar \
--files /home/mapper.py -mapper "/usr/bin/python3 /home/mapper.py" \
--input /sales_data/*.csv -output /output_results
+    -mapper "python /home/mapper.py" \
+    -input /sales_data \
+    -output /output_results
+
+/opt/hadoop-3.2.1/bin/hadoop jar /opt/hadoop-3.2.1/share/hadoop/tools/lib/hadoop-streaming-3.2.1.jar \
+    -files /home/mapper.py \
+    -mapper mapper.py \
+    -input /sales_data \
+    -output /output_results
 
 
 
