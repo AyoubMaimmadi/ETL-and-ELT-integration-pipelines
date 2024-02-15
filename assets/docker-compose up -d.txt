@@ -18,7 +18,26 @@ cd /etc/apt/apt.conf.d/
 
 echo 'Acquire::Check-Valid-Until "false";' | tee 99no-check-valid-until
 
+echo "" > /etc/apt/sources.list
+
+echo "deb http://archive.debian.org/debian/ stretch main contrib non-free" >> /etc/apt/sources.list
+echo "deb-src http://archive.debian.org/debian/ stretch main contrib non-free" >> /etc/apt/sources.list
+echo "deb http://archive.debian.org/debian-security/ stretch/updates main contrib non-free" >> /etc/apt/sources.list
+echo "deb-src http://archive.debian.org/debian-security/ stretch/updates main contrib non-free" >> /etc/apt/sources.list
+
 apt-get update
+
+apt-get install -y python3
+
+python3 --version
+
+----
+docker exec -it namenode /bin/bash
+docker exec -it datanode /bin/bash
+docker exec -it nodemanager /bin/bash
+docker exec -it historyserver /bin/bash
+docker exec -it resourcemanager /bin/bash
+
 
 docker exec -it namenode ls /
 
@@ -26,21 +45,26 @@ docker cp "C:\Users\Ayoub Maimmadi\Documents\AUI\Tajedine Rachidi\ETL and ELT in
 
 docker exec -it namenode chmod +x /home/hadoop/mapper.py
 
-hdfs dfs -rm -r /output_results
-
 ls /tmp/sales_csv
 ls /tmp/sales_xlsx
 
 hdfs dfs -mkdir /sales_data
 hdfs dfs -put /tmp/sales_csv/* /sales_data
 
+rm /home/mapper.py
+
+docker cp "C:\Users\Ayoub Maimmadi\Documents\AUI\Tajedine Rachidi\ETL and ELT integration pipelines\mapper.py" namenode:/home/mapper.py
+
 hadoop jar /opt/hadoop-3.2.1/share/hadoop/tools/lib/hadoop-streaming-3.2.1.jar \
 -files /home/mapper.py -mapper "/usr/bin/python3 /home/mapper.py" \hdfs dfs -put /tmp/s/* /sales_data
 -input /sales_data/* -output /output_results
 
+hdfs dfs -rm -r /output_results
+
 hadoop jar /opt/hadoop-3.2.1/share/hadoop/tools/lib/hadoop-streaming-3.2.1.jar \
 -files /home/mapper.py -mapper "/usr/bin/python3 /home/mapper.py" \
 -input /sales_data/*.csv -output /output_results
+
 
 
 

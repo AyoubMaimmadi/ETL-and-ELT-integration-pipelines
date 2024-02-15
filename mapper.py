@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import sys
-from datetime import datetime
+
+print("Mapper started", file=sys.stderr)
 
 # Function to convert date format from MM/DD/YYYY to YYYY-MM-DD
 def transform_date(date_str):
@@ -22,8 +23,10 @@ def transform_money(value):
 # Attempt to skip the header line if it exists
 try:
     next(sys.stdin)
+    print("Header skipped", file=sys.stderr)
 except StopIteration:
     # Exit the script if there is no input to process
+    print("No input provided", file=sys.stderr)
     sys.exit()
 
 for line in sys.stdin:
@@ -41,3 +44,7 @@ for line in sys.stdin:
         parts[13] = transform_money(parts[13])  # Total Profit column
 
         print(','.join(parts))  # Change to '\t'.join(parts) if your output should be tab-delimited
+    else:
+        print("Invalid line: not enough parts", file=sys.stderr)
+
+print("Mapper completed", file=sys.stderr)
