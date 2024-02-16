@@ -1,0 +1,53 @@
+[2024-02-16T22:05:02.203+0000] {processor.py:161} INFO - Started process (PID=148) to work on /opt/airflow/dags/ELT_automated_airflow.py
+[2024-02-16T22:05:02.204+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/ELT_automated_airflow.py for tasks to queue
+[2024-02-16T22:05:02.205+0000] {logging_mixin.py:188} INFO - [2024-02-16T22:05:02.205+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/ELT_automated_airflow.py
+[2024-02-16T22:05:02.249+0000] {processor.py:840} INFO - DAG(s) 'hadoop_etl_pipeline' retrieved from /opt/airflow/dags/ELT_automated_airflow.py
+[2024-02-16T22:05:02.469+0000] {logging_mixin.py:188} INFO - [2024-02-16T22:05:02.468+0000] {override.py:1769} INFO - Created Permission View: can read on DAG:hadoop_etl_pipeline
+[2024-02-16T22:05:02.521+0000] {logging_mixin.py:188} INFO - [2024-02-16T22:05:02.520+0000] {override.py:1769} INFO - Created Permission View: can edit on DAG:hadoop_etl_pipeline
+[2024-02-16T22:05:02.569+0000] {logging_mixin.py:188} INFO - [2024-02-16T22:05:02.568+0000] {override.py:1769} INFO - Created Permission View: can delete on DAG:hadoop_etl_pipeline
+[2024-02-16T22:05:02.570+0000] {logging_mixin.py:188} INFO - [2024-02-16T22:05:02.569+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2024-02-16T22:05:02.596+0000] {logging_mixin.py:188} INFO - [2024-02-16T22:05:02.596+0000] {dag.py:3058} INFO - Creating ORM DAG for hadoop_etl_pipeline
+[2024-02-16T22:05:02.617+0000] {logging_mixin.py:188} INFO - [2024-02-16T22:05:02.616+0000] {dag.py:3823} INFO - Setting next_dagrun for hadoop_etl_pipeline to 2024-02-16 00:00:00+00:00, run_after=2024-02-17 00:00:00+00:00
+[2024-02-16T22:05:02.717+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/ELT_automated_airflow.py took 0.516 seconds
+[2024-02-16T22:05:33.193+0000] {processor.py:161} INFO - Started process (PID=150) to work on /opt/airflow/dags/ELT_automated_airflow.py
+[2024-02-16T22:05:33.194+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/ELT_automated_airflow.py for tasks to queue
+[2024-02-16T22:05:33.195+0000] {logging_mixin.py:188} INFO - [2024-02-16T22:05:33.195+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/ELT_automated_airflow.py
+[2024-02-16T22:05:33.224+0000] {processor.py:840} INFO - DAG(s) 'hadoop_etl_pipeline' retrieved from /opt/airflow/dags/ELT_automated_airflow.py
+[2024-02-16T22:05:33.259+0000] {logging_mixin.py:188} INFO - [2024-02-16T22:05:33.259+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2024-02-16T22:05:33.292+0000] {logging_mixin.py:188} INFO - [2024-02-16T22:05:33.292+0000] {dag.py:3823} INFO - Setting next_dagrun for hadoop_etl_pipeline to 2024-02-16 00:00:00+00:00, run_after=2024-02-17 00:00:00+00:00
+[2024-02-16T22:05:33.389+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/ELT_automated_airflow.py took 0.199 seconds
+[2024-02-16T22:06:03.795+0000] {processor.py:161} INFO - Started process (PID=152) to work on /opt/airflow/dags/ELT_automated_airflow.py
+[2024-02-16T22:06:03.797+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/ELT_automated_airflow.py for tasks to queue
+[2024-02-16T22:06:03.798+0000] {logging_mixin.py:188} INFO - [2024-02-16T22:06:03.798+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/ELT_automated_airflow.py
+[2024-02-16T22:06:03.828+0000] {processor.py:840} INFO - DAG(s) 'hadoop_etl_pipeline' retrieved from /opt/airflow/dags/ELT_automated_airflow.py
+[2024-02-16T22:06:03.860+0000] {logging_mixin.py:188} INFO - [2024-02-16T22:06:03.860+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2024-02-16T22:06:03.887+0000] {logging_mixin.py:188} INFO - [2024-02-16T22:06:03.887+0000] {dag.py:3823} INFO - Setting next_dagrun for hadoop_etl_pipeline to 2024-02-16 00:00:00+00:00, run_after=2024-02-17 00:00:00+00:00
+[2024-02-16T22:06:03.948+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/ELT_automated_airflow.py took 0.155 seconds
+[2024-02-16T22:06:26.867+0000] {processor.py:161} INFO - Started process (PID=155) to work on /opt/airflow/dags/ELT_automated_airflow.py
+[2024-02-16T22:06:26.870+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/ELT_automated_airflow.py for tasks to queue
+[2024-02-16T22:06:26.872+0000] {logging_mixin.py:188} INFO - [2024-02-16T22:06:26.871+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/ELT_automated_airflow.py
+[2024-02-16T22:06:26.963+0000] {logging_mixin.py:188} INFO - [2024-02-16T22:06:26.945+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/ELT_automated_airflow.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/opt/airflow/dags/ELT_automated_airflow.py", line 36, in <module>
+    'retry_delay': timedelta(minutes=5),
+NameError: name 'timedelta' is not defined
+[2024-02-16T22:06:26.967+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/ELT_automated_airflow.py
+[2024-02-16T22:06:27.059+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/ELT_automated_airflow.py took 0.201 seconds
+[2024-02-16T22:06:28.284+0000] {processor.py:161} INFO - Started process (PID=156) to work on /opt/airflow/dags/ELT_automated_airflow.py
+[2024-02-16T22:06:28.285+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/ELT_automated_airflow.py for tasks to queue
+[2024-02-16T22:06:28.287+0000] {logging_mixin.py:188} INFO - [2024-02-16T22:06:28.286+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/ELT_automated_airflow.py
+[2024-02-16T22:06:28.343+0000] {logging_mixin.py:188} INFO - [2024-02-16T22:06:28.336+0000] {dagbag.py:348} ERROR - Failed to import: /opt/airflow/dags/ELT_automated_airflow.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/dagbag.py", line 344, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/opt/airflow/dags/ELT_automated_airflow.py", line 36, in <module>
+    'retry_delay': timedelta(minutes=5),
+NameError: name 'timedelta' is not defined
+[2024-02-16T22:06:28.347+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/ELT_automated_airflow.py
+[2024-02-16T22:06:28.409+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/ELT_automated_airflow.py took 0.128 seconds
