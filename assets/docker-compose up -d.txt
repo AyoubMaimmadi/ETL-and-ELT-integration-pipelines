@@ -88,3 +88,10 @@ C:\Users\LENOVO>hadoop fs -put C:\path\to\your\local\sales_records_n2.csv /sales
 C:\Users\LENOVO>hadoop fs -put C:\path\to\your\local\sales_records_n3.csv /sales_data
 C:\Users\LENOVO>hadoop fs -put C:\path\to\your\local\sales_records_n4.csv /sales_data
 C:\Users\LENOVO>hadoop fs -put C:\path\to\your\local\sales_records_n5.csv /sales_data
+hadoop fs -put C:\Users\LENOVO\ETL-and-ELT-integration-pipelines\mapper.py /python
+
+
+
+hadoop jar /path/to/hadoop-streaming.jar \
+-file /python/mapper.py -mapper "python mapper.py" \
+-input /sales_data/* -output /output-sales-data
