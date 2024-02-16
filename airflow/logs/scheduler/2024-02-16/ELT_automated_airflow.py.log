@@ -2348,3 +2348,24 @@ sqlalchemy.exc.PendingRollbackError: This Session's transaction has been rolled 
 [2024-02-16T23:48:27.782+0000] {logging_mixin.py:188} INFO - [2024-02-16T23:48:27.781+0000] {dag.py:3036} INFO - Sync 1 DAGs
 [2024-02-16T23:48:27.810+0000] {logging_mixin.py:188} INFO - [2024-02-16T23:48:27.809+0000] {dag.py:3823} INFO - Setting next_dagrun for HADOOP_ELT_pipeline to 2024-02-16 23:23:01.938407+00:00, run_after=2024-02-17 23:23:01.938407+00:00
 [2024-02-16T23:48:27.882+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/ELT_automated_airflow.py took 0.321 seconds
+[2024-02-16T23:49:23.973+0000] {processor.py:161} INFO - Started process (PID=57) to work on /opt/airflow/dags/ELT_automated_airflow.py
+[2024-02-16T23:49:23.975+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/ELT_automated_airflow.py for tasks to queue
+[2024-02-16T23:49:23.977+0000] {logging_mixin.py:188} INFO - [2024-02-16T23:49:23.976+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/ELT_automated_airflow.py
+[2024-02-16T23:49:24.021+0000] {processor.py:840} INFO - DAG(s) 'HADOOP_ELT_pipeline' retrieved from /opt/airflow/dags/ELT_automated_airflow.py
+[2024-02-16T23:49:24.043+0000] {logging_mixin.py:188} INFO - [2024-02-16T23:49:24.043+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2024-02-16T23:49:24.097+0000] {logging_mixin.py:188} INFO - [2024-02-16T23:49:24.097+0000] {dag.py:3823} INFO - Setting next_dagrun for HADOOP_ELT_pipeline to 2024-02-16 23:23:01.938407+00:00, run_after=2024-02-17 23:23:01.938407+00:00
+[2024-02-16T23:49:24.211+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/ELT_automated_airflow.py took 0.243 seconds
+[2024-02-16T23:49:54.296+0000] {processor.py:161} INFO - Started process (PID=67) to work on /opt/airflow/dags/ELT_automated_airflow.py
+[2024-02-16T23:49:54.298+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/ELT_automated_airflow.py for tasks to queue
+[2024-02-16T23:49:54.300+0000] {logging_mixin.py:188} INFO - [2024-02-16T23:49:54.299+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/ELT_automated_airflow.py
+[2024-02-16T23:49:54.338+0000] {processor.py:840} INFO - DAG(s) 'HADOOP_ELT_pipeline' retrieved from /opt/airflow/dags/ELT_automated_airflow.py
+[2024-02-16T23:49:54.465+0000] {logging_mixin.py:188} INFO - [2024-02-16T23:49:54.464+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2024-02-16T23:49:54.492+0000] {logging_mixin.py:188} INFO - [2024-02-16T23:49:54.492+0000] {dag.py:3823} INFO - Setting next_dagrun for HADOOP_ELT_pipeline to 2024-02-16 23:23:01.938407+00:00, run_after=2024-02-17 23:23:01.938407+00:00
+[2024-02-16T23:49:54.563+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/ELT_automated_airflow.py took 0.270 seconds
+[2024-02-16T23:50:25.346+0000] {processor.py:161} INFO - Started process (PID=69) to work on /opt/airflow/dags/ELT_automated_airflow.py
+[2024-02-16T23:50:25.347+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/ELT_automated_airflow.py for tasks to queue
+[2024-02-16T23:50:25.348+0000] {logging_mixin.py:188} INFO - [2024-02-16T23:50:25.347+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/ELT_automated_airflow.py
+[2024-02-16T23:50:25.373+0000] {processor.py:840} INFO - DAG(s) 'HADOOP_ELT_pipeline' retrieved from /opt/airflow/dags/ELT_automated_airflow.py
+[2024-02-16T23:50:25.518+0000] {logging_mixin.py:188} INFO - [2024-02-16T23:50:25.518+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2024-02-16T23:50:25.545+0000] {logging_mixin.py:188} INFO - [2024-02-16T23:50:25.545+0000] {dag.py:3823} INFO - Setting next_dagrun for HADOOP_ELT_pipeline to 2024-02-16 23:23:01.938407+00:00, run_after=2024-02-17 23:23:01.938407+00:00
+[2024-02-16T23:50:25.612+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/ELT_automated_airflow.py took 0.269 seconds
