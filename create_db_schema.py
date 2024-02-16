@@ -1,11 +1,10 @@
-
 import psycopg2
 from psycopg2 import OperationalError, Error
 
 # Database credentials
 db_name = "sales-database"
 username = "postgres"
-password = "postgres"
+password = "Abdi2022"
 
 try:
     # Connect to the PostgreSQL database
@@ -13,6 +12,7 @@ try:
     cur = conn.cursor()
 
     # Create table schema
+    # The following SQL command creates a table with various columns.
     cur.execute('''
             CREATE TABLE IF NOT EXISTS sales_records (
                 "Region" TEXT,
@@ -37,11 +37,13 @@ try:
     print("Table created successfully")
 
 except OperationalError as e:
+    # Exception block for handling operational errors (e.g., connection issues).
     print(f"An operational error occurred: {e}")
 except Error as e:
+    # General exception block for handling other database errors.
     print(f"A database error occurred: {e}")
 finally:
-    # Close communication with the database
+    # Ensuring that the cursor and connection are closed properly.
     if 'cur' in locals():
         cur.close()
     if 'conn' in locals():

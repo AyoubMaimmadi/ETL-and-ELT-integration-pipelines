@@ -1,15 +1,20 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
 import sys
+import csv
+from datetime import datetime
 
-print('Ayoub Was her')
-# Transformation function
-def transform_data(line):
-    # Example transformation: Convert text to uppercase
-    return line.upper()
+def transform_date(date_str):
+    # Transform the date as required
+    return datetime.strptime(date_str, "%m/%d/%Y").strftime("%Y-%m-%d")
 
-# Read input from standard input, transform, and write to standard output
+def transform_money(money_str):
+    # Transform the money as required
+    return float(money_str)
+
 for line in sys.stdin:
-    transformed_line = transform_data(line.strip())
-    print(transformed_line)
+    reader = csv.reader([line])
+    for row in reader:
+        # Assuming date is in the third column and money value in the sixth
+        row[2] = transform_date(row[2])
+        row[5] = transform_money(row[5])
+        print(','.join(map(str, row)))
+

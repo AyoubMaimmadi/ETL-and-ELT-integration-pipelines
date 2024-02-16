@@ -8,7 +8,7 @@ from io import BytesIO
 # Database credentials
 db_name = "sales-database"
 username = "postgres"
-password = "postgres"
+password = "Abdi2022"
 
 # Function to transform date to ISO format (YYYY-MM-DD)
 def transform_date(date_str):
