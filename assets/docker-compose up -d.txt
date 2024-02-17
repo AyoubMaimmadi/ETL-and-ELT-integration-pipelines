@@ -95,3 +95,8 @@ hadoop fs -put C:\Users\LENOVO\ETL-and-ELT-integration-pipelines\mapper.py /pyth
 hadoop jar /path/to/hadoop-streaming.jar \
 -file /python/mapper.py -mapper "python mapper.py" \
 -input /sales_data/* -output /output-sales-data
+hadoop fs -rm -r /python
+hadoop fs -rm -r /output-sales-data
+hadoop fs -head /output-sales-data/part-00000
+hadoop fs -cat /output-sales-data/part-* | more
+

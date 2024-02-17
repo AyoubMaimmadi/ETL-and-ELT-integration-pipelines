@@ -1,0 +1,14 @@
+[2024-02-17T01:03:13.698+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: HADOOP_ELT_pipeline.step_3_run_hadoop_job manual__2024-02-17T01:02:26.982234+00:00 [queued]>
+[2024-02-17T01:03:13.732+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: HADOOP_ELT_pipeline.step_3_run_hadoop_job manual__2024-02-17T01:02:26.982234+00:00 [queued]>
+[2024-02-17T01:03:13.733+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 2
+[2024-02-17T01:03:13.804+0000] {taskinstance.py:2191} INFO - Executing <Task(PythonOperator): step_3_run_hadoop_job> on 2024-02-17 01:02:26.982234+00:00
+[2024-02-17T01:03:13.812+0000] {standard_task_runner.py:60} INFO - Started process 241 to run task
+[2024-02-17T01:03:13.817+0000] {standard_task_runner.py:87} INFO - Running: ['airflow', 'tasks', 'run', 'HADOOP_ELT_pipeline', 'step_3_run_hadoop_job', 'manual__2024-02-17T01:02:26.982234+00:00', '--job-id', '16', '--raw', '--subdir', 'DAGS_FOLDER/ELT_automated_airflow.py', '--cfg-path', '/tmp/tmp4cv93doi']
+[2024-02-17T01:03:13.822+0000] {standard_task_runner.py:88} INFO - Job 16: Subtask step_3_run_hadoop_job
+[2024-02-17T01:03:13.983+0000] {task_command.py:423} INFO - Running <TaskInstance: HADOOP_ELT_pipeline.step_3_run_hadoop_job manual__2024-02-17T01:02:26.982234+00:00 [running]> on host 8bb8949050c9
+[2024-02-17T01:03:14.182+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='airflow' AIRFLOW_CTX_DAG_ID='HADOOP_ELT_pipeline' AIRFLOW_CTX_TASK_ID='step_3_run_hadoop_job' AIRFLOW_CTX_EXECUTION_DATE='2024-02-17T01:02:26.982234+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2024-02-17T01:02:26.982234+00:00'
+[2024-02-17T01:03:14.194+0000] {logging_mixin.py:188} INFO - Error occurred: Command 'hadoop jar C:\Users\LENOVO\hadoop-3.3.0\hadoop-3.3.0\share\hadoop\tools\lib\hadoop-streaming-3.3.0.jar -files file:/C:/Users/LENOVO/ETL-and-ELT-integration-pipelines/mapper.py -mapper "python mapper.py" -input /sales_data/* -output /output-sales-data' returned non-zero exit status 127.
+[2024-02-17T01:03:14.195+0000] {python.py:201} INFO - Done. Returned value was: None
+[2024-02-17T01:03:14.213+0000] {taskinstance.py:1138} INFO - Marking task as SUCCESS. dag_id=HADOOP_ELT_pipeline, task_id=step_3_run_hadoop_job, execution_date=20240217T010226, start_date=20240217T010313, end_date=20240217T010314
+[2024-02-17T01:03:14.273+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2024-02-17T01:03:14.316+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check
