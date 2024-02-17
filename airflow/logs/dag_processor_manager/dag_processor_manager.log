@@ -2847,3 +2847,89 @@ File Path                                   PID    Runtime      # DAGs    # Erro
 /opt/airflow/dags/ELT_automated_airflow.py                           1           0  0.30s           2024-02-16T23:50:25
 /opt/airflow/dags/welcome_dag.py                                     1           0  0.40s           2024-02-16T23:49:57
 ================================================================================
+[2024-02-16T23:50:56.171+0000] {manager.py:879} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                   PID    Runtime      # DAGs    # Errors  Last Runtime    Last Run
+------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/airflow/dags/ELT_automated_airflow.py                           1           0  0.40s           2024-02-16T23:50:56
+/opt/airflow/dags/welcome_dag.py                                     1           0  0.61s           2024-02-16T23:50:28
+================================================================================
+[2024-02-16T23:56:38.725+0000] {manager.py:469} INFO - Processing files using up to 1 processes at a time 
+[2024-02-16T23:56:38.726+0000] {manager.py:470} INFO - Process each file at most once every 30 seconds
+[2024-02-16T23:56:38.728+0000] {manager.py:471} INFO - Checking for new files in /opt/airflow/dags every 300 seconds
+[2024-02-16T23:56:38.731+0000] {manager.py:738} INFO - Searching for files in /opt/airflow/dags
+[2024-02-16T23:56:38.842+0000] {manager.py:741} INFO - There are 2 files in /opt/airflow/dags
+[2024-02-16T23:56:39.878+0000] {manager.py:879} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                   PID    Runtime      # DAGs    # Errors  Last Runtime    Last Run
+------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/airflow/dags/welcome_dag.py                                     0           0
+/opt/airflow/dags/ELT_automated_airflow.py                           1           0  0.52s           2024-02-16T23:56:39
+================================================================================
+[2024-02-16T23:57:10.649+0000] {manager.py:879} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                   PID    Runtime      # DAGs    # Errors  Last Runtime    Last Run
+------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/airflow/dags/ELT_automated_airflow.py                           1           0  0.71s           2024-02-16T23:57:10
+/opt/airflow/dags/welcome_dag.py                                     1           0  0.61s           2024-02-16T23:56:41
+================================================================================
+[2024-02-16T23:57:43.459+0000] {manager.py:879} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                   PID    Runtime      # DAGs    # Errors  Last Runtime    Last Run
+------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/airflow/dags/ELT_automated_airflow.py                           1           0  1.24s           2024-02-16T23:57:43
+/opt/airflow/dags/welcome_dag.py                                     1           0  0.79s           2024-02-16T23:57:12
+================================================================================
+[2024-02-16T23:58:14.340+0000] {manager.py:879} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                   PID    Runtime      # DAGs    # Errors  Last Runtime    Last Run
+------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/airflow/dags/ELT_automated_airflow.py                           1           0  0.73s           2024-02-16T23:58:14
+/opt/airflow/dags/welcome_dag.py                                     1           0  0.71s           2024-02-16T23:57:45
+================================================================================
+[2024-02-16T23:58:45.583+0000] {manager.py:879} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                   PID    Runtime      # DAGs    # Errors  Last Runtime    Last Run
+------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/airflow/dags/ELT_automated_airflow.py                           1           0  0.41s           2024-02-16T23:58:45
+/opt/airflow/dags/welcome_dag.py                                     1           0  0.31s           2024-02-16T23:58:16
+================================================================================
+[2024-02-16T23:59:16.392+0000] {manager.py:879} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                   PID    Runtime      # DAGs    # Errors  Last Runtime    Last Run
+------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/airflow/dags/ELT_automated_airflow.py                           1           0  0.30s           2024-02-16T23:59:16
+/opt/airflow/dags/welcome_dag.py                                     1           0  0.31s           2024-02-16T23:58:48
+================================================================================
+[2024-02-16T23:59:47.159+0000] {manager.py:879} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                   PID    Runtime      # DAGs    # Errors  Last Runtime    Last Run
+------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/airflow/dags/ELT_automated_airflow.py                           1           0  0.30s           2024-02-16T23:59:47
+/opt/airflow/dags/welcome_dag.py                                     1           0  0.20s           2024-02-16T23:59:18
+================================================================================
+[2024-02-17T00:00:18.499+0000] {manager.py:879} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                   PID    Runtime      # DAGs    # Errors  Last Runtime    Last Run
+------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/opt/airflow/dags/ELT_automated_airflow.py                           1           0  0.83s           2024-02-17T00:00:18
+/opt/airflow/dags/welcome_dag.py                                     1           0  0.20s           2024-02-16T23:59:49
+================================================================================
