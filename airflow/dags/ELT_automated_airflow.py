@@ -35,10 +35,21 @@ def step_3():
     streaming_command = 'hadoop jar C:\\Users\\LENOVO\\hadoop-3.3.0\\hadoop-3.3.0\\share\\hadoop\\tools\\lib\\hadoop-streaming-3.3.0.jar -files file:/C:/Users/LENOVO/ETL-and-ELT-integration-pipelines/mapper.py -mapper "python mapper.py" -input /sales_data/* -output /output-sales-data'
     run_hadoop_command(streaming_command)
 
+def run_elt_automated():
+    script_path = "C:/Users/LENOVO/ETL-and-ELT-integration-pipelines/ELT_automated.py"
+    try:
+        subprocess.run(f"python {script_path}", check=True, shell=True)
+    except subprocess.CalledProcessError as e:
+        print(f"Error occurred while running ELT_automated.py: {e}")
+    except FileNotFoundError as e:
+        print(f"Error: {e}. Make sure the script path is correct.")
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+
 default_args = {
     'owner': 'airflow',
     'depends_on_past': False,
-    'start_date': datetime.now() - timedelta(days=1),  # Set to yesterday
+    'start_date': datetime.now() - timedelta(days=1),
     'email_on_failure': True,
     'email_on_retry': True,
     'retries': 1,
@@ -70,4 +81,10 @@ task_3 = PythonOperator(
     dag=dag,
 )
 
-task_1 >> task_2 >> task_3
+task_4 = PythonOperator(
+    task_id='run_elt_automated_script',
+    python_callable=run_elt_automated,
+    dag=dag,
+)
+
+task_1 >> task_2 >> task_3 >> task_4

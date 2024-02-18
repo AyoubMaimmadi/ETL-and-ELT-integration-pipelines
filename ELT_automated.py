@@ -1,36 +1,78 @@
 import subprocess
 import os
+import time
+import logging
 
-def run_hadoop_command(command):
-    try:
-        subprocess.run(command, check=True, shell=True)
-    except subprocess.CalledProcessError as e:
-        print(f"Error occurred: {e}")
+# Setting up logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-def step_1():
-    hdfs_path = '/sales_data'
-    local_path = "C:\\Users\\LENOVO\\ETL-and-ELT-integration-pipelines\\sales_csv"
-    # Check if directory exists in HDFS
+def run_hadoop_command(command, retries=3, delay=5):
+    logging.info(f"Running command: {command}")
+    for attempt in range(1, retries + 1):
+        try:
+            subprocess.run(command, check=True, shell=True)
+            logging.info("Command executed successfully.")
+            return True
+        except subprocess.CalledProcessError as e:
+            logging.error(f"Attempt {attempt} failed: {e}")
+            if attempt < retries:
+                logging.info(f"Retrying in {delay} seconds...")
+                time.sleep(delay)
+
+    logging.error(f"All attempts failed for command: {command}")
+    return False
+
+def step_1(hdfs_path, local_path):
+    logging.info("Starting Step 1: Load data to HDFS")
+    if not os.path.exists(local_path) or not os.listdir(local_path):
+        logging.warning(f"Local directory {local_path} does not exist or is empty. Skipping step 1.")
+        return False
+
     if subprocess.run(f"hadoop fs -test -d {hdfs_path}", shell=True).returncode != 0:
         load_command = f"hadoop fs -copyFromLocal {local_path} {hdfs_path}"
-        run_hadoop_command(load_command)
+        success = run_hadoop_command(load_command)
     else:
-        print(f"{hdfs_path} already exists in HDFS. Skipping copy.")
+        logging.info(f"{hdfs_path} already exists in HDFS. Skipping copy.")
+        success = True
 
-def step_2():
-    hdfs_path = '/python'
-    local_file = "C:\\Users\\LENOVO\\ETL-and-ELT-integration-pipelines\\mapper.py"
-    # Check if file exists in HDFS
+    logging.info("Step 1 completed." if success else "Step 1 failed.")
+    return success
+
+def step_2(hdfs_path, local_file):
+    logging.info("Starting Step 2: Load mapper to HDFS")
+    if not os.path.exists(local_file):
+        logging.warning(f"Local file {local_file} does not exist. Skipping step 2.")
+        return False
+
     if subprocess.run(f"hadoop fs -test -e {hdfs_path}", shell=True).returncode != 0:
         load_mapper = f"hadoop fs -put {local_file} {hdfs_path}"
-        run_hadoop_command(load_mapper)
+        success = run_hadoop_command(load_mapper)
     else:
-        print(f"{hdfs_path} already exists in HDFS. Skipping copy.")
+        logging.info(f"{hdfs_path} already exists in HDFS. Skipping copy.")
+        success = True
 
-def step_3():
+    logging.info("Step 2 completed." if success else "Step 2 failed.")
+    return success
+
+def step_3(streaming_command):
+    logging.info("Starting Step 3: Execute Hadoop Streaming")
+    success = run_hadoop_command(streaming_command)
+    logging.info("Step 3 completed." if success else "Step 3 failed.")
+    return success
+
+def main():
+    logging.info("Starting ELT Process")
+    hdfs_path_data = '/sales_data'
+    local_path_data = "C:\\Users\\LENOVO\\ETL-and-ELT-integration-pipelines\\sales_csv"
+    hdfs_path_mapper = '/python'
+    local_file_mapper = "C:\\Users\\LENOVO\\ETL-and-ELT-integration-pipelines\\mapper.py"
     streaming_command = 'hadoop jar C:\\Users\\LENOVO\\hadoop-3.3.0\\hadoop-3.3.0\\share\\hadoop\\tools\\lib\\hadoop-streaming-3.3.0.jar -files file:/C:/Users/LENOVO/ETL-and-ELT-integration-pipelines/mapper.py -mapper "python mapper.py" -input /sales_data/* -output /output-sales-data'
-    run_hadoop_command(streaming_command)
 
-step_1()
-step_2()
-step_3()
+    if step_1(hdfs_path_data, local_path_data):
+        if step_2(hdfs_path_mapper, local_file_mapper):
+            step_3(streaming_command)
+
+    logging.info("ELT Process completed")
+
+if __name__ == "__main__":
+    main()

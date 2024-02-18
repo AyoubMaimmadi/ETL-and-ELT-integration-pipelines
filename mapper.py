@@ -20,7 +20,7 @@ def int_(units):
 def process_line(line):
     columns = line.strip().split(',')
     if len(columns) == 15 :
-        columns[1] = capitalize_country_all_upper(columns[1])
+        columns[1] = capitalize_region_all_upper(columns[1])
         columns[6] = convert_date_format(columns[6])
         columns[8] = convert_date_format(columns[8])
         columns[9] = int_(columns[9])

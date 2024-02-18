@@ -117,7 +117,6 @@ def process_file(file_path, table_name, conn):
 
 
 
-# Main execution function with enhanced error recovery
 def process_files(directory, table_name):
     conn = create_db_connection()
     if conn is None:
@@ -125,16 +124,39 @@ def process_files(directory, table_name):
         return
 
     try:
+        if not os.path.exists(directory):
+            logging.error(f"The directory {directory} does not exist. Exiting.")
+            return
+
         excel_files = glob.glob(os.path.join(directory, '*.xlsx'))
+
+        if not excel_files:
+            logging.warning(f"No .xlsx files found in the directory: {directory}. Exiting.")
+            return
+
         for file_path in excel_files:
-            # Mark file as processing
-            with open(file_path + ".processing", 'w') as f:
-                f.write("Processing")
-            process_file(file_path, table_name, conn)
+            processed_flag = file_path + ".processed"
+            processing_flag = file_path + ".processing"
+
+            if os.path.isfile(processing_flag):
+                logging.warning(f"File {file_path} was partially processed in a previous run. Re-attempting.")
+                os.remove(processing_flag)
+
+            if not os.path.isfile(processed_flag):
+                # Mark file as processing
+                with open(processing_flag, 'w') as f:
+                    f.write("Processing")
+                process_file(file_path, table_name, conn)
+            else:
+                logging.info(f"File {file_path} has already been processed.")
+
+    except Exception as e:
+        logging.error(f"An error occurred during file processing: {e}")
     finally:
         if conn:
             conn.close()
             logging.info("Database connection closed.")
+
 
 if __name__ == "__main__":
     csv_directory = 'sales_xlsx'
