@@ -13,7 +13,7 @@ file_names = [f"sales_records_n{i}.xlsx" for i in range(1, 6)]
 # Database credentials
 db_name = "remote-sales-database"
 username = "postgres"
-password = "postgres"
+password = "Abdi2022"
 
 # Function to transform date to ISO format (YYYY-MM-DD)
 def transform_date(date_str):
