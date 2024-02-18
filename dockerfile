@@ -13,3 +13,6 @@ RUN apt-get update && \
 
 
 USER airflow
+
+# Install Python dependencies for ELT_automated.py
+RUN pip install package1 package2 package3

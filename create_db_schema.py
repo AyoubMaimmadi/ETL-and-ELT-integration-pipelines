@@ -1,50 +1,61 @@
 import psycopg2
 from psycopg2 import OperationalError, Error
+import logging
 
-# Database credentials
+# Setting up logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+# Database credentials (Consider using environment variables for security)
 db_name = "sales-database"
 username = "postgres"
 password = "Abdi2022"
 
-try:
-    # Connect to the PostgreSQL database
-    conn = psycopg2.connect(dbname=db_name, user=username, password=password)
-    cur = conn.cursor()
+def create_table(conn):
+    try:
+        with conn.cursor() as cur:
+            # Create table schema
+            cur.execute('''
+                CREATE TABLE IF NOT EXISTS sales_records (
+                    "Region" TEXT,
+                    "Country" TEXT,
+                    "Item Type" TEXT,
+                    "Sales Channel" TEXT,
+                    "Order Priority" TEXT,
+                    "Order Date" DATE,
+                    "Order ID" BIGINT PRIMARY KEY,
+                    "Ship Date" DATE,
+                    "Units Sold" INTEGER,
+                    "Unit Price" NUMERIC,
+                    "Unit Cost" NUMERIC,
+                    "Total Revenue" NUMERIC,
+                    "Total Cost" NUMERIC,
+                    "Total Profit" NUMERIC
+                );
+            ''')
+            conn.commit()
+            logging.info("Table created successfully")
+    except Error as e:
+        logging.error(f"Error creating table: {e}")
+        conn.rollback()
 
-    # Create table schema
-    # The following SQL command creates a table with various columns.
-    cur.execute('''
-            CREATE TABLE IF NOT EXISTS sales_records (
-                "Region" TEXT,
-                "Country" TEXT,
-                "Item Type" TEXT,
-                "Sales Channel" TEXT,
-                "Order Priority" TEXT,
-                "Order Date" TEXT,
-                "Order ID" BIGINT,
-                "Ship Date" TEXT,
-                "Units Sold" BIGINT,
-                "Unit Price" DOUBLE PRECISION,
-                "Unit Cost" DOUBLE PRECISION,
-                "Total Revenue" DOUBLE PRECISION,
-                "Total Cost" DOUBLE PRECISION,
-                "Total Profit" DOUBLE PRECISION
-            );
-    ''')
+def connect_to_database(db_name, username, password):
+    try:
+        return psycopg2.connect(dbname=db_name, user=username, password=password)
+    except OperationalError as e:
+        logging.error(f"Database connection error: {e}")
+        return None
 
-    # Commit changes
-    conn.commit()
-    print("Table created successfully")
+def main():
+    conn = connect_to_database(db_name, username, password)
+    if conn is None:
+        logging.error("Failed to connect to the database. Exiting.")
+        return
 
-except OperationalError as e:
-    # Exception block for handling operational errors (e.g., connection issues).
-    print(f"An operational error occurred: {e}")
-except Error as e:
-    # General exception block for handling other database errors.
-    print(f"A database error occurred: {e}")
-finally:
-    # Ensuring that the cursor and connection are closed properly.
-    if 'cur' in locals():
-        cur.close()
-    if 'conn' in locals():
+    create_table(conn)
+
+    if conn:
         conn.close()
+        logging.info("Database connection closed.")
+
+if __name__ == "__main__":
+    main()

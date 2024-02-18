@@ -1,0 +1,28 @@
+[2024-02-18T17:05:43.682+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: ETL_pipeline.run_etl_process scheduled__2023-03-05T00:00:00+00:00 [queued]>
+[2024-02-18T17:05:43.698+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: ETL_pipeline.run_etl_process scheduled__2023-03-05T00:00:00+00:00 [queued]>
+[2024-02-18T17:05:43.698+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 2
+[2024-02-18T17:05:43.746+0000] {taskinstance.py:2191} INFO - Executing <Task(PythonOperator): run_etl_process> on 2023-03-05 00:00:00+00:00
+[2024-02-18T17:05:43.752+0000] {standard_task_runner.py:60} INFO - Started process 3560 to run task
+[2024-02-18T17:05:43.757+0000] {standard_task_runner.py:87} INFO - Running: ['airflow', 'tasks', 'run', 'ETL_pipeline', 'run_etl_process', 'scheduled__2023-03-05T00:00:00+00:00', '--job-id', '52', '--raw', '--subdir', 'DAGS_FOLDER/ETL_automated_airflow.py', '--cfg-path', '/tmp/tmpyihpckj7']
+[2024-02-18T17:05:43.759+0000] {standard_task_runner.py:88} INFO - Job 52: Subtask run_etl_process
+[2024-02-18T17:05:43.886+0000] {task_command.py:423} INFO - Running <TaskInstance: ETL_pipeline.run_etl_process scheduled__2023-03-05T00:00:00+00:00 [running]> on host 8bb8949050c9
+[2024-02-18T17:05:44.070+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='airflow' AIRFLOW_CTX_DAG_ID='ETL_pipeline' AIRFLOW_CTX_TASK_ID='run_etl_process' AIRFLOW_CTX_EXECUTION_DATE='2023-03-05T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2023-03-05T00:00:00+00:00'
+[2024-02-18T17:05:44.072+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/python.py", line 199, in execute
+    return_value = self.execute_callable()
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/python.py", line 216, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+  File "/opt/airflow/dags/ETL_automated_airflow.py", line 175, in etl_task
+    process_files(csv_directory, table_name)
+  File "/opt/airflow/dags/ETL_automated_airflow.py", line 115, in process_files
+    conn = create_db_connection()
+  File "/opt/airflow/dags/ETL_automated_airflow.py", line 32, in create_db_connection
+    conn = psycopg2.connect(dbname=db_name, user=username, password=password)
+NameError: name 'db_name' is not defined
+[2024-02-18T17:05:44.097+0000] {taskinstance.py:1138} INFO - Marking task as UP_FOR_RETRY. dag_id=ETL_pipeline, task_id=run_etl_process, execution_date=20230305T000000, start_date=20240218T170543, end_date=20240218T170544
+[2024-02-18T17:05:44.143+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 52 for task run_etl_process (name 'db_name' is not defined; 3560)
+[2024-02-18T17:05:44.171+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2024-02-18T17:05:44.204+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

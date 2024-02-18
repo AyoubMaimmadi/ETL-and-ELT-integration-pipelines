@@ -1,32 +1,43 @@
 #!/usr/bin/env python
 import sys
-import pandas as pd
+from datetime import datetime
 
-# Function to convert date format
 def convert_date_format(date_str):
-    return pd.to_datetime(date_str).strftime('%Y-%m-%d')
+    try:
+        return datetime.strptime(date_str, '%m/%d/%Y').strftime('%Y-%m-%d')
+    except ValueError:
+        return 'Invalid-Date'
 
-# Function to format money values
-def format_money(value):
-    return '{:.2f}'.format(float(value))
+def capitalize_region_all_upper(region_name):
+    return region_name.upper()
 
-# Process each line in the input
-for line in sys.stdin:
-    # Strip and split the line into columns
-    line = line.strip()
-    columns = line.split(',')
+def int_(units):
+    try:
+        return str(round(float(units)))
+    except ValueError:
+        return 'Invalid-Units'
 
-    # Check if the line is not the header and has the correct number of columns
-    if len(columns) == 14 and 'Order Date' not in line:
-        # Transform dates
-        columns[5] = convert_date_format(columns[5])  # Order Date
-        columns[7] = convert_date_format(columns[7])  # Ship Date
+def process_line(line):
+    columns = line.strip().split(',')
+    if len(columns) == 15 :
+        columns[1] = capitalize_region_all_upper(columns[1])
+        columns[6] = convert_date_format(columns[6])
+        columns[8] = convert_date_format(columns[8])
+        columns[9] = int_(columns[9])
+        for i in [10, 11, 12, 13, 14]:
+            columns[i] = int_(columns[i])
+        return ','.join(columns)
+    return line
 
-        # Format money fields
-        for i in [9, 10, 11, 12, 13]:
-            columns[i] = format_money(columns[i])
 
-    # Output the transformed line
-    print(','.join(columns))
+
+def main():
+    for line in sys.stdin:
+        processed_line = process_line(line)
+        print(processed_line)
+
+if __name__ == '__main__':
+    main()
+
 
 
