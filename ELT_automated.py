@@ -2,9 +2,25 @@ import subprocess
 import os
 import time
 import logging
+import json
 
 # Setting up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+# File to store progress
+progress_file = 'progress.json'
+
+def load_progress():
+    if os.path.exists(progress_file):
+        with open(progress_file, 'r') as file:
+            return json.load(file)
+    else:
+        return {}
+def save_progress(step, status):
+    progress = load_progress()
+    progress[step] = status
+    with open(progress_file, 'w') as file:
+        json.dump(progress, file)
 
 def run_hadoop_command(command, retries=3, delay=5):
     logging.info(f"Running command: {command}")
@@ -34,9 +50,10 @@ def step_1(hdfs_path, local_path):
     else:
         logging.info(f"{hdfs_path} already exists in HDFS. Skipping copy.")
         success = True
-
+    save_progress('step_1', 'completed' if success else 'failed')
     logging.info("Step 1 completed." if success else "Step 1 failed.")
     return success
+    
 
 def step_2(hdfs_path, local_file):
     logging.info("Starting Step 2: Load mapper to HDFS")
@@ -50,27 +67,37 @@ def step_2(hdfs_path, local_file):
     else:
         logging.info(f"{hdfs_path} already exists in HDFS. Skipping copy.")
         success = True
-
+    save_progress('step_2', 'completed' if success else 'failed')
     logging.info("Step 2 completed." if success else "Step 2 failed.")
     return success
 
 def step_3(streaming_command):
     logging.info("Starting Step 3: Execute Hadoop Streaming")
     success = run_hadoop_command(streaming_command)
+    save_progress('step_3', 'completed' if success else 'failed')
     logging.info("Step 3 completed." if success else "Step 3 failed.")
     return success
 
 def main():
     logging.info("Starting ELT Process")
+    progress = load_progress()
+
+    # Define paths and commands
     hdfs_path_data = '/sales_data'
     local_path_data = "C:\\Users\\LENOVO\\ETL-and-ELT-integration-pipelines\\sales_csv"
     hdfs_path_mapper = '/python'
     local_file_mapper = "C:\\Users\\LENOVO\\ETL-and-ELT-integration-pipelines\\mapper.py"
     streaming_command = 'hadoop jar C:\\Users\\LENOVO\\hadoop-3.3.0\\hadoop-3.3.0\\share\\hadoop\\tools\\lib\\hadoop-streaming-3.3.0.jar -files file:/C:/Users/LENOVO/ETL-and-ELT-integration-pipelines/mapper.py -mapper "python mapper.py" -input /sales_data/* -output /output-sales-data'
 
-    if step_1(hdfs_path_data, local_path_data):
-        if step_2(hdfs_path_mapper, local_file_mapper):
-            step_3(streaming_command)
+    # Execute steps based on progress
+    if progress.get('step_1') != 'completed':
+        step_1(hdfs_path_data, local_path_data)
+
+    if progress.get('step_2') != 'completed':
+        step_2(hdfs_path_mapper, local_file_mapper)
+
+    if progress.get('step_3') != 'completed':
+        step_3(streaming_command)
 
     logging.info("ELT Process completed")
 
