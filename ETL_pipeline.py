@@ -6,14 +6,31 @@ from psycopg2 import OperationalError, Error
 from datetime import datetime
 import logging
 import time
+import json
 
 # Setting up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-# Database credentials (consider using environment variables for security)
+# Database credentials
 db_name = "sales-database"
 username = "postgres"
 password = "Abdi2022"
+
+# Progress file
+progress_file = 'progress_etl.json'
+
+def load_progress():
+    if os.path.exists(progress_file):
+        with open(progress_file, 'r') as file:
+            return json.load(file)
+    else:
+        return {}
+
+def save_progress(file_path, status):
+    progress = load_progress()
+    progress[file_path] = status
+    with open(progress_file, 'w') as file:
+        json.dump(progress, file)
 
 # Transformation functions
 def transform_date(date_str):
@@ -24,13 +41,16 @@ def transform_date(date_str):
         return date_str
 
 def transform_money(money_value):
+    if isinstance(money_value, float):
+        return "{:.2f}".format(money_value)
     try:
-        return "{:.2f}".format(float(money_value))
+        return "{:.2f}".format(float(money_value.replace('$', '').replace(',', '')))
     except ValueError as e:
         logging.warning(f"Money transformation error: {e}")
         return money_value
 
-# Database interaction functions with retry mechanism
+
+# Database interaction functions
 def create_db_connection(attempts=3, delay=5):
     conn = None
     while attempts > 0:
@@ -79,49 +99,53 @@ def process_file(file_path, table_name, conn):
     processed_flag = file_path + ".processed"
     processing_flag = file_path + ".processing"
 
-    if not os.path.isfile(processed_flag):
-        if not os.path.isfile(processing_flag):
-            # File has not been processed or is not currently being processed
-            try:
-                # Step 2: Attempt to read the file
-                df = pd.read_excel(file_path, index_col=0)
-
-                # Step 3: Apply transformations
-                date_columns = ['Order Date', 'Ship Date']
-                money_columns = ['Unit Price', 'Unit Cost', 'Total Revenue', 'Total Cost', 'Total Profit']
-                df[date_columns] = df[date_columns].applymap(transform_date)
-                df[money_columns] = df[money_columns].applymap(transform_money)
-
-                # Mark file as processing
-                with open(processing_flag, 'w') as f:
-                    f.write("Processing")
-
-                # Step 4: Insert data into the database
-                insert_dataframe_to_db(df, table_name, conn)
-
-                # Step 5: Rename .processing to .processed upon successful processing
-                os.rename(processing_flag, processed_flag)
-                logging.info(f"Data from {file_path} processed and inserted successfully.")
-
-            except Exception as e:
-                logging.error(f"Error processing file {file_path}: {e}")
-                if os.path.isfile(processing_flag):
-                    os.remove(processing_flag)
-        else:
-            # File was partially processed in a previous run, re-attempt processing
-            logging.warning(f"File {file_path} was partially processed in a previous run. Re-attempting.")
-            os.remove(processing_flag)  # Remove processing flag and re-attempt
-            process_file(file_path, table_name, conn)  # Recursive call to reprocess
-    else:
+    if os.path.isfile(processed_flag):
         logging.info(f"File {file_path} has already been processed.")
+        return
 
+    try:
+        if os.path.isfile(processing_flag):
+            logging.warning(f"File {file_path} was partially processed in a previous run. Re-attempting.")
+            os.remove(processing_flag)
+        
+        with open(processing_flag, 'w') as f:
+            f.write("Processing")
 
+        df = pd.read_excel(file_path, index_col=0)
+        date_columns = ['Order Date', 'Ship Date']
+        money_columns = ['Unit Price', 'Unit Cost', 'Total Revenue', 'Total Cost', 'Total Profit']
+
+        # Apply transformations using map for each column
+        for col in date_columns:
+            df[col] = df[col].map(transform_date)
+
+        for col in money_columns:
+            df[col] = df[col].map(transform_money)
+
+        insert_dataframe_to_db(df, table_name, conn)
+
+        os.rename(processing_flag, processed_flag)
+        save_progress(file_path, 'completed')
+
+    except pd.errors.EmptyDataError as e:
+        logging.error(f"Empty data in file {file_path}: {e}")
+        save_progress(file_path, 'failed')
+        if os.path.isfile(processing_flag):
+            os.remove(processing_flag)
+
+    except Exception as e:
+        logging.error(f"Error processing file {file_path}: {e}")
+        save_progress(file_path, 'failed')
+        if os.path.isfile(processing_flag):
+            os.remove(processing_flag)
 
 def process_files(directory, table_name):
     conn = create_db_connection()
     if conn is None:
         logging.error("Failed to establish database connection. Exiting.")
         return
+
+    progress = load_progress()
 
     try:
         if not os.path.exists(directory):
@@ -135,28 +159,13 @@ def process_files(directory, table_name):
             return
 
         for file_path in excel_files:
-            processed_flag = file_path + ".processed"
-            processing_flag = file_path + ".processing"
-
-            if os.path.isfile(processing_flag):
-                logging.warning(f"File {file_path} was partially processed in a previous run. Re-attempting.")
-                os.remove(processing_flag)
-
-            if not os.path.isfile(processed_flag):
-                # Mark file as processing
-                with open(processing_flag, 'w') as f:
-                    f.write("Processing")
+            if progress.get(file_path) != 'completed':
                 process_file(file_path, table_name, conn)
-            else:
-                logging.info(f"File {file_path} has already been processed.")
 
-    except Exception as e:
-        logging.error(f"An error occurred during file processing: {e}")
     finally:
         if conn:
             conn.close()
             logging.info("Database connection closed.")
-
 
 if __name__ == "__main__":
     csv_directory = 'sales_xlsx'

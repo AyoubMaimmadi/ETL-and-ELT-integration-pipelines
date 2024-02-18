@@ -8,7 +8,7 @@ import json
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # File to store progress
-progress_file = 'progress.json'
+progress_file = 'progress_elt.json'
 
 def load_progress():
     if os.path.exists(progress_file):
@@ -31,6 +31,10 @@ def run_hadoop_command(command, retries=3, delay=5):
             return True
         except subprocess.CalledProcessError as e:
             logging.error(f"Attempt {attempt} failed: {e}")
+            if "specific error message" in str(e):
+                # Handle specific error
+                logging.error("Specific error occurred")
+                return False
             if attempt < retries:
                 logging.info(f"Retrying in {delay} seconds...")
                 time.sleep(delay)
@@ -38,8 +42,21 @@ def run_hadoop_command(command, retries=3, delay=5):
     logging.error(f"All attempts failed for command: {command}")
     return False
 
+def check_data_source_availability(local_path):
+    if not os.path.exists(local_path):
+        logging.error(f"Data source directory {local_path} does not exist.")
+        return False
+    if not os.listdir(local_path):
+        logging.error(f"Data source directory {local_path} is empty.")
+        return False
+    return True
+
+
 def step_1(hdfs_path, local_path):
     logging.info("Starting Step 1: Load data to HDFS")
+    if not check_data_source_availability(local_path):
+        save_progress('step_1', 'failed')
+        return False
     if not os.path.exists(local_path) or not os.listdir(local_path):
         logging.warning(f"Local directory {local_path} does not exist or is empty. Skipping step 1.")
         return False
